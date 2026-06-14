@@ -89,6 +89,24 @@ To fix this, we use a custom [TranscriptionLoss](train.ipynb#L91) that uses weig
 
 ---
 
+## 📈 Training Results & Key Metrics
+
+The model was trained for **20 epochs** using the custom joint weighted BCE loss. The loss metrics show steady convergence and optimization:
+
+*   **Initial Training State (Epoch 1)**:
+    *   **Average Training Loss**: `3.3419`
+    *   **Average Validation Loss**: `1.4240`
+*   **Best Checkpoint Performance (Epoch 19)**:
+    *   **Average Training Loss**: `0.6049`
+    *   **Average Validation Loss**: `0.5522` *(Checkpoint saved as `best_piano_transcriber.pth`)*
+*   **Final Training State (Epoch 20)**:
+    *   **Average Training Loss**: `0.6110`
+    *   **Average Validation Loss**: `0.5836`
+
+These metrics demonstrate that the model successfully learned to balance predicting highly sparse onset triggers (with $10\times$ penalty weight) alongside sustaining frame states.
+
+---
+
 ## ⚙️ Note Decoding State Machine
 
 Raw probability outputs from the neural network are continuous values between 0 and 1. If we just use a basic threshold (e.g., "if probability > 0.5, note is ON"), the notes will flicker on and off rapidly due to noise, and we won't be able to tell if a key was tapped twice quickly or held down.
