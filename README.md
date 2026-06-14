@@ -39,7 +39,7 @@ To solve this, we used **Google Colab** to preprocess the data:
 2. **CQT Extraction**: We ran feature extraction on Colab's high-speed CPU/GPU and converted all audio into CQT features.
 3. **Data Compression**: We packed the CQT features along with target frames and target onsets into compact `.npz` files for each song.
 4. **Preprocessed ZIP**: We zipped these preprocessed files into a single `maestro_preprocessed_complete.zip` (~12.9 GB compressed).
-5. **No Local Audio Setup Required**: If you want to train the model locally, you don't need to do any heavy audio processing or download the 80 GB raw audio. You just download the 13 GB preprocessed zip, extract it to the [maestro_preprocessed_complete/](maestro_preprocessed_complete) folder, and run the training code immediately.
+
 
 ### 3. Understanding the Constant-Q Transform (CQT)
 Instead of standard Fast Fourier Transforms (FFT) or Mel Spectrograms, we use the **Constant-Q Transform (CQT)**:
@@ -79,7 +79,7 @@ To fix this, we use a custom [TranscriptionLoss](train.ipynb#L91) that uses weig
 * **Onset Positive Weight**: Set to `10.0`. This tells the loss function that missing an onset (predicting 0 instead of 1) is 10 times worse than predicting a false onset.
 * **Frame Positive Weight**: Set to `3.0` to balance the active vs. inactive sustain frames.
 * **Joint Loss Calculation**:
-  $$\text{Loss}_{\text{total}} = 5.0 \cdot \text{Loss}_{\text{onset}} + 1.0 \cdot \text{Loss}_{\text{frame}}$$
+```Loss_total = 5.0 × Loss_onset + 1.0 × Loss_frame```
   We multiply the onset loss by 5.0 because accurate onset detection is the most critical factor in creating a clean, professional MIDI output.
 
 ### 2. Optimization Details
